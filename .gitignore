@@ -1,0 +1,14 @@
+#Compiled
+*.o
+
+#Executable
+*.exe
+*.app
+
+#Tool
+.exe
+.vscode
+
+#macOS File System
+.DH_Store
+
