@@ -6,8 +6,9 @@
 *.app
 
 #Tool
-.exe
-.vscode
+.exe/
+.vscode/
+.venv/
 
 #macOS File System
 .DS_Store
