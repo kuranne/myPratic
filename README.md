@@ -1,4 +1,10 @@
-🫶 Hi, This is my coding hobby projects.
-Updated This Readme on Date: Mon 25 Aug, 2025 10:34PM
+# This is my Practic.
 
-22370025082025 I update this Readme for the first time, I'm not quite good in English skill, but I want to develope my English skill via writing this readme as lke as Diary note.
+### What about this?
+<p>This is just what a space that I use to develope my skill by myself</p>
+
+### To Contact Me!
+<p>You can return to my homepage then find the contact there. </p>
+
+### Note
+<p>Friday 5 Sep, I update this README.md, try to java and introduce to lean4. Lean4 is what a language that I confuse to use it very much.</p>

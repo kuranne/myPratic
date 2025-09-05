@@ -1,3 +1,7 @@
+# Addition
+.exe
+
+
 # VSCode
 .vscode/*
 !.vscode/settings.json
@@ -5,7 +9,6 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
-
  
 # Common credential files
 **/credentials.json
