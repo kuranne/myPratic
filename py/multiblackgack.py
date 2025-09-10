@@ -11,13 +11,15 @@ alchk = []
 life = True
 alllose = 0
 revals = 0
+outed = 0
 
-if cheats == 'b':
-    allbot = True
 if cheats == 'Y' or cheats == 'y':
     cheats = True
 elif cheats == 'N' or cheats == 'n':
     cheats = False
+elif cheats == 'b':
+    print("All is Bot")
+    allbot = True
 else:
     print("I think you are good boy so won't cheat, right?")
     cheats = False
@@ -41,8 +43,10 @@ class Hand:
         return False if sum(self.number) > 21 else True
 
     def draw(self):
+        global outed
         global usedcard
         while True:
+
             pick = int(rd.randrange(1,11,1))
             if pick == 1 and sum(self.number) + 11 <= 21:
                 pick = 11
@@ -54,9 +58,10 @@ class Hand:
             while_ten = theten[pkten]
 
             toOut = f"{'A' if pick == 1 or pick == 11 else while_ten if pick == 10 else pick }{symbl[pksymbl]}"
-            if self.symbol in usedcard:
+            if toOut in usedcard:
                 continue
             
+            outed += 1
             usedcard.append(toOut)
             self.number.append(pick)
             self.symbol.append(toOut)
@@ -69,7 +74,7 @@ class Hand:
         print(f"Turn {turn} | playername: {n}")
         input()
         if self.chkifexceed():
-            print(f"hand: {", ".join(self.symbol)} >> {sum(self.number)}")
+            print(f"hand: {', '.join(self.symbol)} >> {sum(self.number)}")
             match input("sel: "):
                 case "d":
                     self.draw()
@@ -77,6 +82,9 @@ class Hand:
                 case "r":
                     self.stillplay = False
                     revals += 1
+                case "q":
+                    life = False
+                    return 0
                 case _ :
                     print("error, I will draw for you :)")
                     self.draw()
@@ -89,6 +97,7 @@ class Hand:
             self.stillplay = False
             revals += 1
         time.sleep(0.5)
+        return 1
 
 while True:
     szplayer = int(input("Enter the player size: "))
@@ -102,7 +111,7 @@ if allbot:
     player = list({"name":f"Bot{i+1}", "hand":Hand(), "isBot":True, "canplay":True}for i in range(szplayer))
 else:
     player = list({"name":input(f"player {i+1}'s name(type bot for Bot): "), "hand":Hand(), "isBot":False, "canplay":True}for i in range(szplayer))
-    w = 0
+    w = 1
     for i in player:
         if i["name"] == "bot" or i["name"] == "Bot":
             i["name"] = f"{i['name']}{w}"
@@ -115,13 +124,17 @@ while life:
     if alllose == szplayer:
         break
     for p in player:
+        if outed >= 52:
+                life = False
+                break
         if p["name"] not in alchk:    
             if p["hand"].stillplay and not p["isBot"]:
                 os.system("cls" if os.name == "nt" else "clear")
                 if cheats or allbot:
                     for d in player:
-                        print(f"{d["name"]}: {", ".join(d["hand"].symbol)} >> {sum(d['hand'].number)}")
-                p["hand"].inTurn(p["name"])
+                        print(f"{d['name']}: {', '.join(d['hand'].symbol)} >> {sum(d['hand'].number)}")
+                if p["hand"].inTurn(p["name"]) == 0:
+                    break
             elif p["hand"].stillplay and p["isBot"]:
                 p["hand"].chkifexceed()
                 if sum(p["hand"].number) >= 17:
@@ -139,19 +152,30 @@ for p in player:
     if p["hand"].cadidate and sum(p["hand"].number) <= 21:
         prewin.append({"name":p["name"], "score":sum(p["hand"].number)})
 
-if len(prewin) > 1:
+if len(prewin) > 0:
     prewin.sort(key=lambda x:x["score"], reverse=True)
-winner = prewin[0]["name"]
+    top_score = prewin[0]["score"]
+    winners = [p["name"] for p in prewin if p["score"] == top_score]
+    if len(winners) == 1:
+        winner = winners[0]
+    else:
+        winner = "due to many winner."
+else:
+    winner = None
 
 os.system("cls" if os.name == "nt" else "clear")
-try:
-    if prewin[0]["score"] == prewin[1]["score"]:
-        print("There is no winner")
-    else:
-        print(f"The Winner is {winner} with {prewin[0]['score']} point.") if szplayer > 2 else print(f"The Winner is {winner} with {prewin[0]['score']} point.")
-except:
-    IndexError
+if winner is None:
     print("There is no winner")
+elif winner == "due to many winner.":
+    print(f"There is no winner, {winner} with the highest points {top_score}")
+else:
+    print(f"The Winner is {winner} with {prewin[0]['score']} point.")
 for p in player:
-    print(f"{p["name"]}: {', '.join(p["hand"].symbol)} >> {sum(p["hand"].number)}")
+    print(f"{p['name']}: {', '.join(p['hand'].symbol)} >> {sum(p['hand'].number)}")
 time.sleep(3)
+
+if allbot:
+    score = 0
+    for sc in player:
+        score += sum(sc["hand"].number)
+    print(f"ave is {score/szplayer}")
