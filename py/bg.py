@@ -1,7 +1,11 @@
 # Black Jack by Kuramais
 import random as rd
+import time
+import os
 
 winner, turn, cheats = None, 1, input("Want to cheat? Y/N: ")
+
+usedcard = []
 
 if cheats == 'Y' or cheats == 'y':
     cheats = True
@@ -10,6 +14,7 @@ elif cheats == 'N' or cheats == 'n':
 else:
     print("I think you are good boy so won't cheat, right?")
     cheats = False
+    
 class Hand:
     def __init__(self, number=None, symbol=None):
         self.number = [] if number == None else [number]
@@ -29,13 +34,10 @@ class Hand:
             while_ten =  theten[pkten]
 
             toOut = f"{"A" if pick == 1 or pick == 11 else while_ten if pick == 10 else pick }{symbl[pksymbl]}"
-            for i in yrhand.symbol:
-                if i == toOut:
-                    continue
-            for i in ophand.symbol:
-                if i == toOut:
-                    continue
+            if self.symbol in usedcard:
+                continue
 
+            usedcard.append(toOut)
             self.number.append(pick)
             self.symbol.append(toOut)
             break
@@ -55,23 +57,26 @@ class Hand:
         if sum(self.number) < 14:
             return False
         else: return True if sum(self.number) > 17 else False
-
+        
 yrhand = Hand()
 ophand = Hand()
 
-print("\n>>> d for draw, r for reval or q to quit <<<")
-
 while True:
-    print(f"\nturn {turn}\nyours: {", ".join(yrhand.symbol)} >> {sum(yrhand.number)}")
-    if cheats:
-        print(f"Bot: {", ".join(ophand.symbol)} >> {sum(ophand.number)}")
+    os.system("cls" if os.name == "nt" else "clear")
+    print("\n>>> d for draw, r for reval or q to quit <<<\n")
+    try:
+        print(f"U draw {yrhand.symbol[-1]}!")
+    except:IndexError
 
-    match input("sel :"):
+    print(f"turn {turn}\nYours: {", ".join(yrhand.symbol)} >> {sum(yrhand.number)}")
+    if cheats:
+        print(f"Bot's: {", ".join(ophand.symbol)} >> {sum(ophand.number)}")
+
+    match input("sel: "):
         case "q":
             break
         case 'd':
             yrhand.draw()
-            print(f"U draw {yrhand.symbol[-1]}!")
             if ophand.chkbot():
                 break
             else : ophand.draw()
@@ -82,7 +87,6 @@ while True:
         case _ :
             print("error, I will draw for you :)")
             yrhand.draw()
-            print(f"U draw {yrhand.symbol[-1]}!")
             if ophand.chkbot():
                 break
             else : ophand.draw()
@@ -106,4 +110,15 @@ if winner == None:
             winner = "Bot"
         else : winner = "Draw"
 
+os.system("cls" if os.name == "nt" else "clear")
+print("reval hands\nyours|bot's")
+for i in range(len(yrhand.number)):
+    try:
+        print(f"{i+1}: {yrhand.symbol[i]} {ophand.symbol[i]}")
+    except:
+        IndexError
+        print(f"{i+1}: {yrhand.symbol[i]}")
+        
+
 print(f"winner is {winner}, with score {sum(ophand.number) if winner == "Bot" else sum(yrhand.number)} : {sum(yrhand.number) if winner == "Bot" else sum(ophand.number)}") if winner != "Draw" else print(f"Draw with score {sum(ophand.number) if winner == "Bot" else sum(yrhand.number)} : {sum(yrhand.number) if winner == "Bot" else sum(ophand.number)}")
+time.sleep(1)
