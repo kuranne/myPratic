@@ -1,7 +1,15 @@
-num = int(input("Number of numbers: "))
-list_num = []
-for i in range(num):
-    list_num.append(int(input(f"Input number {i+1}: ")))    
+lenge = int(input())
+maxi, minni = None, None
 
-print(min(list_num))
-print(max(list_num))
+for i in range(lenge):
+    something = int(input())
+    if i == 0:
+        maxi, minni = something, something
+        continue
+    if maxi < something:
+        maxi = something
+    if minni > something:
+        minni = something
+
+print(f"{minni}\n{maxi}")
+    

@@ -1,18 +1,53 @@
 # Black Jack by Kuramais
 import random as rd
 
-winner, turn = None, 1
+winner, turn, cheats = None, 1, input("Want to cheat? Y/N: ")
 
+if cheats == 'Y' or cheats == 'y':
+    cheats = True
+elif cheats == 'N' or cheats == 'n':
+    cheats = False
+else:
+    print("I think you are good boy so won't cheat, right?")
+    cheats = False
 class Hand:
-    def __init__(self, number):
-        self.number = [number]
+    def __init__(self, number=None, symbol=None):
+        self.number = [] if number == None else [number]
+        self.symbol = [] if symbol == None else [f"{number}{symbol}"]
         self.cadidate = True
     
     def draw(self):
-        pick = int(rd.randrange(2,11,1))
-        self.number.append(pick)
+        while True:
+            pick = int(rd.randrange(1,11,1))
+            if pick == 1 and sum(self.number) + 11 <= 21:
+                pick = 11
+
+            symbl = {1:"♠︎",2:"♣︎",3:"♡",4:"♢"}
+            pksymbl = int(rd.randrange(1,5,1))
+            pkten = int(rd.randrange(1,5,1))
+            theten = {1:"K",2:"Q",3:"J",4:pick}
+            while_ten =  theten[pkten]
+
+            toOut = f"{"A" if pick == 1 or pick == 11 else while_ten if pick == 10 else pick }{symbl[pksymbl]}"
+            for i in yrhand.symbol:
+                if i == toOut:
+                    continue
+            for i in ophand.symbol:
+                if i == toOut:
+                    continue
+
+            self.number.append(pick)
+            self.symbol.append(toOut)
+            break
 
     def chkifexceed(self):
+
+        if sum(self.number) > 21 and 11 in self.number:
+            for i in range(len(self.number)):
+                if self.number[i] == 11:
+                    self.number[i] = 1
+                    break
+
         self.cadidate = False if sum(self.number) > 21 else True
         return True if sum(self.number) > 21 else False
     
@@ -21,18 +56,22 @@ class Hand:
             return False
         else: return True if sum(self.number) > 17 else False
 
-yrhand = Hand(int(rd.randrange(2,11,1)))
-ophand = Hand(int(rd.randrange(2,11,1)))
+yrhand = Hand()
+ophand = Hand()
 
-print("\n>>> d for draw, r for reval <<<")
+print("\n>>> d for draw, r for reval or q to quit <<<")
 
 while True:
-    print(f"\nturn {turn}\nyours: {yrhand.number}")
+    print(f"\nturn {turn}\nyours: {", ".join(yrhand.symbol)} >> {sum(yrhand.number)}")
+    if cheats:
+        print(f"Bot: {", ".join(ophand.symbol)} >> {sum(ophand.number)}")
 
     match input("sel :"):
+        case "q":
+            break
         case 'd':
             yrhand.draw()
-            print(f"U draw {yrhand.number[-1]}!")
+            print(f"U draw {yrhand.symbol[-1]}!")
             if ophand.chkbot():
                 break
             else : ophand.draw()
@@ -43,7 +82,7 @@ while True:
         case _ :
             print("error, I will draw for you :)")
             yrhand.draw()
-            print(f"U draw {yrhand.number[-1]}!")
+            print(f"U draw {yrhand.symbol[-1]}!")
             if ophand.chkbot():
                 break
             else : ophand.draw()
@@ -67,4 +106,4 @@ if winner == None:
             winner = "Bot"
         else : winner = "Draw"
 
-print(f"winner is {winner}, with score {sum(ophand.number) if winner == "Bot" else sum(yrhand.number)} : {sum(yrhand.number) if winner == "Bot" else sum(ophand.number)}")
+print(f"winner is {winner}, with score {sum(ophand.number) if winner == "Bot" else sum(yrhand.number)} : {sum(yrhand.number) if winner == "Bot" else sum(ophand.number)}") if winner != "Draw" else print(f"Draw with score {sum(ophand.number) if winner == "Bot" else sum(yrhand.number)} : {sum(yrhand.number) if winner == "Bot" else sum(ophand.number)}")
