@@ -66,8 +66,7 @@ class Hand:
             self.number.append(pick)
             self.symbol.append(toOut)
             break
-            
-    
+              
     def inTurn(self, n):
         global revals
         print("<> d to draw, r to reval, q to quit <>\n")
@@ -96,27 +95,35 @@ class Hand:
                 print("Yeah, that mean reval too.")
             self.stillplay = False
             revals += 1
-        time.sleep(0.5)
+        time.sleep(1)
         return 1
 
 while True:
-    szplayer = int(input("Enter the player size: "))
+    try:
+        szplayer = int(input("Enter the player size: "))
+    except: 
+        ValueError
+        print("Player size must be integer.")
+        continue
     if szplayer <= 1:
         print(f"The player size must more than {szplayer}")
         continue
     break
 
-
 if allbot:
     player = list({"name":f"Bot{i+1}", "hand":Hand(), "isBot":True, "canplay":True}for i in range(szplayer))
 else:
     player = list({"name":input(f"player {i+1}'s name(type bot for Bot): "), "hand":Hand(), "isBot":False, "canplay":True}for i in range(szplayer))
-    w = 1
+    w, ps = 1, 1
     for i in player:
         if i["name"] == "bot" or i["name"] == "Bot":
             i["name"] = f"{i['name']}{w}"
             w+=1
             i["isBot"] = True
+        elif i["name"] == "":
+            i["name"] = f"{ps}"
+            ps+=1
+        
 
 while life:
     if revals == szplayer // 2:
@@ -167,15 +174,16 @@ os.system("cls" if os.name == "nt" else "clear")
 if winner is None:
     print("There is no winner")
 elif winner == "due to many winner.":
-    print(f"There is no winner, {winner} with the highest points {top_score}")
+    print(f"There is no winner, {winner}, the highest points are {top_score}.")
 else:
     print(f"The Winner is {winner} with {prewin[0]['score']} point.")
 for p in player:
     print(f"{p['name']}: {', '.join(p['hand'].symbol)} >> {sum(p['hand'].number)}")
-time.sleep(3)
 
 if allbot:
     score = 0
     for sc in player:
         score += sum(sc["hand"].number)
     print(f"ave is {score/szplayer}")
+
+input("Enter to exit")
