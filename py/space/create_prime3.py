@@ -4,18 +4,21 @@ def sieve_for_primes_to_n(n):
     sieve[0] = sieve[1] = False
     for i in range(2, int(size**0.5) + 1):
         if sieve[i]:
-            for multiple in range(i*i, size + 1, i):
+            for multiple in range(i * i, size + 1, i):
                 sieve[multiple] = False
     primes = [i for i, is_prime in enumerate(sieve) if is_prime]
     return primes
 
+
 import math
+
 
 def main(n):
     if n <= 0:
         return None
     primes = sieve_for_primes_to_n(n)
-    return primes[n-1]
+    return primes[n - 1]
+
 
 def master(n):
     if n <= 1:
@@ -33,7 +36,7 @@ def master(n):
                     thatprime = False
                     break
             if thatprime:
-                    prime.append(necnum)
+                prime.append(necnum)
             necnum += 2
         return prime[-1]
 

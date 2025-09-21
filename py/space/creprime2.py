@@ -1,5 +1,6 @@
 import math
 
+
 def main(n):
     if n <= 1:
         return 2
@@ -16,9 +17,10 @@ def main(n):
                     thatprime = False
                     break
             if thatprime:
-                    prime.append(necnum)
+                prime.append(necnum)
             necnum += 2
         return prime[-1]
+
 
 primeatn = int(input("Prime at: "))
 print(main(primeatn))
