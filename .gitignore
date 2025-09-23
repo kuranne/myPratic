@@ -34,5 +34,5 @@ private_*
 Cargo.*
 target/
 
-# gsc Script
-.gsc.config
+#--- C ---#
+*.dSYM/
