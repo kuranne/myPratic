@@ -2,6 +2,8 @@ import random as rd
 import time
 import os
 
+os.system("cls" if os.name == "nt" else "clear")
+
 while True:
     winner, turn, cheats, allbot = None, 1, input("Want to cheat? Y/N: "), False
 

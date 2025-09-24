@@ -1,40 +1,67 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int compar(const void *a, const void *b){
+    return *(int*)a - *(int*)b;
+}
+
 int main(){
-    int i, n, maxnum;
+    int n, i, j, forc=0, hescore=0;
     scanf("%d", &n);
-    int *morei = (int*)malloc(sizeof(int)*n);
-    scanf("%d", &morei[0]);
-    maxnum = morei[0];
 
-    for(i=1; i<n; i++){
-        scanf("%d", &morei[i]);
-        if(morei[i] > maxnum) maxnum = morei[i];
-    }
-
-    int *count = (int*)calloc(maxnum+1, sizeof(int));
+    int *post = (int*)calloc(n, sizeof(int));
+    int *postarry = (int*)calloc(n, sizeof(int));
 
     for(i=0; i<n; i++){
-        count[morei[i]]++;
-    }
 
-    int *max = (int*)malloc(sizeof(int)*2);
-    max[0] = 0;
-    max[1] = 0;
+        int ptemp;
+        scanf("%d", &ptemp);
 
-    for(i=0; i<=maxnum; i++){
-        if(count[i] > max[1]){
-            max[0] = i;
-            max[1] = count[i];
+        for(j=0; j<=i; j++){
+           if(ptemp!=post[j]&&post[j]==0){
+                post[j] = ptemp;
+                postarry[j] = 1;
+                forc ++;
+                break;
+            } else if(ptemp == post[j]){
+                postarry[j]++;
+                break;
+            }
+        }
+    }    
+
+    int *winn = (int*)calloc(forc, sizeof(int)), winc=0;
+
+    for(i=0; i<n; i++){
+        if(post[i] == 0){
+            break;
+        }
+        
+        if(hescore<postarry[i]){
+            hescore = postarry[i];
+            continue;
         }
     }
 
-    printf("%d\n", max[0]);
+    for(i=0; i<n; i++){
+        if(post[i] == 0){
+            break;
+        }
 
-    free(max);
-    free(morei);
-    free(count);
+        if(postarry[i] == hescore){
+            winn[winc++] = post[i];
+        }
+    }
 
+    qsort(winn, winc, sizeof(int), compar);
+
+    for(i=0; i<winc; i++){
+        printf("%d ", winn[i]);
+    }
+    printf("\n");
+
+    free(post);
+    free(postarry);
+    free(winn);
     return 0;
 }
