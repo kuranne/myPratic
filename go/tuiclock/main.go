@@ -22,7 +22,7 @@ var digits = [10][5]string{
 }
 
 func clearScreen() {
-	cmd := exec.Command("clear") // macOS + Linux
+	cmd := exec.Command("clear")
 	cmd.Stdout = os.Stdout
 	cmd.Run()
 }
@@ -47,10 +47,10 @@ func main() {
 	for {
 		clearScreen()
 
-		// เช็ก input แบบ non-blocking
+		// Problem here
 		if reader.Buffered() > 0 {
 			input, _ := reader.ReadByte()
-			if input == 'q' {
+			if input == 'q' || input == 'Q' {
 				break
 			}
 			if input >= '0' && input <= '9' {

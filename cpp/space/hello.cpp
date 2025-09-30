@@ -1,15 +1,16 @@
 #include <iostream>
 #include <cstdlib>
-
-using namespace std;
+#include <string>
 
 int main(int argc, char* argv[]){
-    if(argc > 1){
-        for(int i = 1; i < argc; i++){
-            cout << "Hello, " << argv[i] << "!" << endl;
+    int i;
+    if(argc>1){
+        for(i=1; i<argc; i++){
+            printf("Hello %s!\n", argv[i]);
         }
-    }else{
-        cout << "Hello, World!" << endl;
+    }else
+    {
+        printf("Hello World!\n");
     }
     return 0;
 }
