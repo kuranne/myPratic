@@ -5,26 +5,30 @@ import (
 )
 
 func main() {
-	var n int
-	fmt.Scanf("%d", &n)
-	x := make([]int, n)
-	for i := 0; i < n; i++ {
-		fmt.Scanf("%d", &x[i])
-	}
-	var (
-		minvar int = x[0]
-		maxvar int = x[0]
-	)
-	if len(x) > 1 {
+	var n, i int
+	chk := true
+	fmt.Scan(&n)
+	number := make([]int, n)
 
-		for i := 1; i < n; i++ {
-			if minvar > x[i] {
-				minvar = x[i]
+	for i = 0; i < n; i++ {
+		fmt.Scan(&number[i])
+	}
+
+	for chk {
+		for i = 0; i < n; i++ {
+			if i != n-1 && number[i] > number[i+1] {
+				number[i], number[i+1] = number[i+1], number[i]
+				chk = true
+				break
 			}
-			if maxvar < x[i] {
-				maxvar = x[i]
+			if i == n-1 && number[i] < number[i-1] {
+				number[i], number[i-1] = number[i-1], number[i]
+				chk = true
+				break
 			}
+			chk = false
 		}
 	}
-	fmt.Printf("%v %v\n", minvar, maxvar)
+
+	fmt.Printf("%v\n%v\n", number[0], number[n-1])
 }
