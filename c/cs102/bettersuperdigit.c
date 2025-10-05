@@ -1,50 +1,53 @@
+#pragma GCC optimize("03", "unroll-loops")
+#pragma GCC traget("avx2")
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-char *chardynamic() {
-    size_t size = 2;
-    char *str = (char*)calloc(size, sizeof(char));
-    if (str == NULL) {return NULL;}
-
+char *cydynamicin(){
+    size_t size = 2, lenght = 0;
     int c;
-    size_t lengt = 0;
+    char *buff = (char*)calloc(size, sizeof(char));
+    if (buff == NULL){return NULL;}
 
-    while((c = getchar()) != '\0' && c != EOF && c != ' '){
-        if (lengt == size - 1){
+    while ((c=getchar()) != '\n' && c != EOF && c!=' ') {
+        if (lenght == size - 1){
             size *= 2;
-            char *temp = (char*)realloc(str, size);
-            if (temp == NULL) {free(str); return NULL;}
-
-            str = temp;
-        }
-        str[lengt++] = c;
+            char *temp = (char*)realloc(buff, size);
+            if(temp==NULL){free(buff); return NULL;}
+            buff = temp;
+        }        
+        buff[lenght++] = c;
     }
-    str[lengt] = '\0';
-    
-    char *fnstr = (char*)realloc(str, lengt + 1);
-    return (fnstr == NULL)?str:fnstr;
+
+    buff[lenght] = '\0';
+    char *str = (char*)realloc(buff, lenght+1);
+    return (str == NULL)?buff:str;
 }
 
-int main(){
-    char *input = chardynamic();
-    int i = 0, k, answer = 0;
+signed main(){
+    char *number = cydynamicin();
+    if(number == NULL) {return 1;}
+    int i, ans = 0, k;
     scanf("%d", &k);
-    for (i = 0; i < (int)strlen(input) && input[i] != '\0'; i++){
-        answer += (input[i] - '0');
+
+    for (i=0; i < (int)(strlen(number)) && number[i] != '\0'; i++){
+        ans += number[i] - '0';
     }
-    free(input);
+    
+    ans *= k;
+    free(number);
 
-    answer *= k;
-
-    while (answer > 9){
-        int temp = 0;
-        while (answer > 0){
-            temp += answer %10;
-            answer /= 10;
+    int temp;
+    while (ans > 9){
+        temp = 0;
+        while (ans > 0){
+            temp += ans%10;
+            ans /= 10;
         }
-        answer = temp;
+        ans = temp;
     }
-    printf("%d", answer);
+
+    printf("%d\n", ans);
     return 0;
 }

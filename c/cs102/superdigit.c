@@ -1,21 +1,29 @@
 #include <stdio.h>
 
-int main(){
-    char buff[101];
-    int i, sum = 0, k;
-    scanf("%s %d", buff, &k);
-    for(i = 0; i < 100 && buff[i] != '\0'; i++){
-        sum += (buff[i]-'0');
+int main()
+{
+    char numbers[101];
+    int i, ans = 0, k;
+    scanf("%s%d", numbers, &k);
+
+    for (i = 0; i < 101 && numbers[i] != '\0'; i++)
+    {
+        ans += numbers[i] - '0';
     }
-    sum *= k;
-    while(sum > 9){
-        int nsum = 0;
-        while(sum > 0){
-            nsum += sum%10;
-            sum /= 10;
+    ans *= k;
+    int temp;
+
+    while (ans > 9)
+    {
+        temp = 0;
+        while (ans > 0)
+        {
+            temp += ans % 10;
+            ans /= 10;
         }
-        sum = nsum;
+        ans = temp;
     }
-    printf("%d\n", sum);
+    printf("%d\n", ans);
+
     return 0;
 }
