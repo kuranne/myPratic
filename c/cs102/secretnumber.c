@@ -18,7 +18,7 @@ char *dynamicin(){
     if (length == 0){free(buff); return NULL;}
     buff[length] = '\0';
     char *fnstr = (char*)realloc(buff, length + 1);
-    return (fnstr == NULL)?buff:fnstr;    
+    return (fnstr == NULL)?buff:fnstr;
 }
 
 int chktext(char text[]) {

@@ -10,6 +10,6 @@ int main(){
         ans += ((ques%2==0)?6:5);
     }
     printf("%d\n", ans);
-
+    
     return 0;
 }
