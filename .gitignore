@@ -7,8 +7,8 @@ Thumbs.db
 #--- tool ---#
 .vscode/
 .git/
-.gitignore
-.gsc.config
+.gsc.config #gsc
+.tool-versions #asdf
 
 #--- Python ---#
 .venv/
