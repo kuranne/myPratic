@@ -19,7 +19,7 @@ fn premutate (gone:Vec<i32>, remain:Vec<i32>, result: &mut Vec<Vec<i32>>) {
         }
     }
 
-}
+} 
 
 fn main() {
     let num: Vec<i32> = (1..=input().trim().parse().unwrap()).collect();
