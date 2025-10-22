@@ -1,4 +1,4 @@
-FROM python
-WORKDIR /kuranne/app
-COPY space/multiblackgack.py .
-CMD ["python", "multiblackgack.py"]
+FROM python:latest
+WORKDIR /
+COPY multiblackgack.py /multiblackgack.py
+CMD ["python3 /multiblackgack"]

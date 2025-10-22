@@ -7,7 +7,6 @@ Thumbs.db
 #--- tool ---#
 .vscode/
 .git/
-.gsc.config #gsc
 .tool-versions #asdf
 
 #--- Python ---#
@@ -36,3 +35,7 @@ target/
 
 #--- C ---#
 *.dSYM/
+
+# gsc Script
+.gsc.config
+.idea/
