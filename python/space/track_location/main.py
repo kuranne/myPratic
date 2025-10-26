@@ -3,7 +3,11 @@ import phonenumbers as pn
 import opencage as oc
 import folium as fl
 
-from myphone import number
+if (x:=input("sel: ")) == "y":
+    from myphone import number
+else:
+    number = x
+
 from mykey import key
 
 from phonenumbers import geocoder as gc
