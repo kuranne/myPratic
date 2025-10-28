@@ -57,9 +57,10 @@ int main() {
     printf("Negative coordinates: ");
     double *used = (double*)calloc(n*n, sizeof(double));
     for (i = 0; i < n; i++) {
+        if (nums[i] >= 0) continue;
         for (j = 0; j < n; j ++) {
             int pass = 1;
-            if (nums[i] != nums[j] && nums[i] < 0 && nums[j] < 0) {
+            if ( nums[j] < 0 && nums[i] != nums[j]) {
                 for (k = 0; k < n*n; k++) {
                     if (nums[i] + nums[j] == used[k]) {
                         pass = 0;
@@ -75,5 +76,7 @@ int main() {
 
     printf("\n");
 
+    free(nums);
+    free(used);
     return 0;
 } 
