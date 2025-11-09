@@ -11,4 +11,4 @@ signed main() {
     age.insert({"Maosa", 16});
     for (auto &val: age) cout << val.first << " is " << val.second << endl;
     return 0;
-}
+}w
