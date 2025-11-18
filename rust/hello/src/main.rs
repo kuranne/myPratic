@@ -1,24 +1,19 @@
-use clap::{Parser};
+use clap::Parser;
 
-#[derive(Parser, Debug)]
-#[command(name = "hello", version, about = "print hello")]
+#[derive(Debug, Parser)]
+#[command(name = "hello", version, about = "hello world")]
 struct Args {
     #[arg(short, long)]
     name: String,
-
+    
     #[arg(short, long, default_value_t = 1)]
     time: u8
 }
 
 fn main() {
     let arg = Args::parse();
-    if !arg.name.is_empty() {
-        for _ in 0..arg.time {
-            println!("hello, {}!", arg.name)
-        }
-    } else {
-        for _ in 0..arg.time {
-            println!("hello world!")
-        }
+    if arg.time < 1 {println!("time can't lower than 1."); return;}
+    for _ in 0..arg.time {
+        println!("Hello {}!", arg.name)
     }
 }
